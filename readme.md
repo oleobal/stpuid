@@ -1,8 +1,8 @@
-### UUID
+### Small & Trivial Universally Unique Identifier
 
-This when a unique identifier is needed, but actually good UUIDs like [RFC 4122](https://www.ietf.org/rfc/rfc4122.txt) are too long. In particular when the identifiers need to be human-readable.
+There are situations where an unique identifier is needed, but actually good UUIDs like [RFC 4122](https://www.ietf.org/rfc/rfc4122.txt) are too long; in particular when the identifiers need to be human-readable.
 
-In many cases, people simply slice off a portion of the UUID, however this is undesireable because UUIDs typically have fields, and it is possible to outright amputate one.
+In these cases, people simply slice off a portion of the UUID, however this is undesireable because a UUID might not scramble its information equally around its length. That is to say, chopping off three-fourth of it might actually raise the number of collisions by a lot more than this.
 
 In these cases, it would be better to use a relatively simple to implement UUID format, that would make a lot of assumption about how safe its environment is, rather than attempt to be bullet-proof.
 

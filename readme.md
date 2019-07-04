@@ -16,7 +16,7 @@ Date in RFC 4122 is a 60-bits count of nanoseconds since the gregorian reformati
 
 In base 36, we can fit 41 bits of information in 8 characters. This is enough for ~69.7 years of counting milliseconds. Counting nanoseconds is not feasible (only ~24 days), neither is only using 7 characters (~2 years in milliseconds). Users will need to establish an epoch before using the id.
 
-Clock collisions are handled by adding four characters (~20.68 bits) of randomness, reducing the chance of collision to 1.68 million to one. Although, like RFC 4122, it'd be possible to enhance this field by replacing some randomness with identifying/distinctifying information, if available.
+Clock collisions are handled by adding four characters (~20.68 bits) of randomness, reducing the chance of collision to 1.68 million to one. Although, like RFC 4122, it'd be possible to enhance this field by replacing some randomness with identifying/distinctifying information, if available. Do be careful to avoid seeding the random number generator with only the system clock !
 
 Finally, in order to more easily distinguish between IDs, we establish a particular notation: the eight characters for time are notated backwards, followed by the four random characters.
 

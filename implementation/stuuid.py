@@ -43,7 +43,11 @@ def getRandomSuffix():
 		# FIXME
 		raise e
 
-def getUUID(epoch : int, addSeparator=False):	
+def getUUID(epoch=0 : int, addSeparator=False):	
+	"""
+	Default epoch on 1970-01-01 leaves only half the date range for
+	use by the program
+	"""
 	time = getMilliseconds(datetime.now()) - epoch
 	res = getDateStr(time)+getRandomSuffix()
 	if addSeparator:

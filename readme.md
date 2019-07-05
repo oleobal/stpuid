@@ -2,36 +2,40 @@
 
 There are situations where an unique identifier is needed, but actually good UUIDs like [RFC 4122](https://www.ietf.org/rfc/rfc4122.txt) are too long; in particular when the identifiers need to be human-readable.
 
-In these cases, people simply slice off a portion of the UUID, however this is undesireable because a UUID might not scramble its information equally around its length. That is to say, chopping off three-fourth of it might actually raise the number of collisions by a lot more than this.
+In these cases, people might simply slice off a portion of the UUID; however, this is undesireable, because a UUID might not scramble its information equally around its length. That is to say, chopping off three-fourth of it might have unpredictable effects on collision rates.
 
 In these cases, it would be better to use a relatively simple to implement UUID format, that would make a lot of assumption about how safe its environment is, rather than attempt to be bullet-proof.
 
 #### Design
 
+We are looking for an easy-to-read (and distinguish by eye), and thus short UUID system. The names should be alphanumeric only and without mixed case, to be easily compatible with various systems.
+
 The first step is notating the UUID in base 36, using the full alphanumeric range but no special characters or uppercase variants. In base 36, we encode ~5.17 bits per characters (BPC), which means the RFC 4122 (128 bits) is still 25 characters, so further steps need be taken; that is to say, some information has to go.
 
-RFC 4122 has essentially two fields, date and 'node', which can be a variety of things but can generally be manipulated as a random number. We will start by dropping the variant field (3 bits) and version number (4 bits).
+RFC 4122 has essentially two fields, date and 'node', which can be a variety of things but can generally be manipulated as a random number. We will start by dropping the other fields: the variant (3 bits) and version number (4 bits).
 
 Date in RFC 4122 is a 60-bits count of nanoseconds since the gregorian reformation in the 16th century. In addition, a 'clock sequence' 14-bits field helps to handle cases where the clock might be the same, such as two machines not being synchronized or time being adjusted backwards.
 
-In base 36, we can fit 41 bits of information in 8 characters. This is enough for ~69.7 years of counting milliseconds. Counting nanoseconds is not feasible (only ~24 days), neither is only using 7 characters (~2 years in milliseconds). Users will need to establish an epoch before using the id.
+In base 36, 8 characters give us around ~89.5 years of counting milliseconds. Counting nanoseconds is not feasible (only ~32 days), neither is only using 7 characters (~2.5 years in milliseconds). 90 years of validity is acceptable, as long as users establish an epoch that is right before their usage starts.
 
-Clock collisions are handled by adding four characters (~20.68 bits) of randomness, reducing the chance of collision to 1.68 million to one. Although, like RFC 4122, it'd be possible to enhance this field by replacing some randomness with identifying/distinctifying information, if available. Do be careful to avoid seeding the random number generator with only the system clock !
+Clock collisions are handled by adding four characters (~20.68 bits) of randomness, resulting in a ~1.68 million to one. Although, like RFC 4122, it'd be possible to enhance this field by replacing some randomness with identifying/distinctifying information, if available. Do be careful to avoid seeding the random number generator with only the system clock !
 
-Finally, in order to more easily distinguish between IDs, we establish a particular notation: the eight characters for time are notated backwards, followed by the four random characters.
+Finally, in order to more easily distinguish between IDs, we establish a particular notation: the eight characters for time are notated backwards (ie little-endian), followed by the four random characters.
 
-To make reading the UUID easier, it is possible to separate it into three groups with a separator (I recommend a dash `-`)
+To make reading the UUID easier, it is possible to separate it into three groups, using a dash `-` as separator. The point of this (and the previous instruction) is to bring into view the first four digits (the least significant ones of the timestamp). It is expected that humans will first look at those to quickly check whether two STUUIDs are the same. These digits repeat approximately every 30 minutes.
 
 Examples: `e48c-1c10-g8ec`, `vfvg2c10xo77`
 
 
 #### Assumptions
 
+STUUIDs are expected to be used to distinguish resources within a single system, not across unrelated systems.
+
 We live in a low-intensity environment, where UUIDs are not generated often, and the risk of collision is thus rare.
 
 Our machines are managed (typically, by a cloud provider), ensuring time conflicts are basically not a problem.
 
-The software will be relevant for less than the ~70 years the UUIDs are good for.
+The software will be relevant for less than the ~90 years the UUIDs are good for.
 
 #### Generation algorithm
 

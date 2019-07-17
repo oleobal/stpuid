@@ -18,8 +18,8 @@ def getDateStr(msTimestamp: int) -> str:
 	while len(res) < 8:
 		res = "0"+res
 	res=res[:8]
-		
-	return res[::-1] # reverse
+	
+	return res[:6][::-1] + res[6:]
 
 @singledispatch
 def getMilliseconds(isotime: datetime) -> int :
@@ -32,7 +32,7 @@ def _(isotime) -> int :
 
 @getMilliseconds.register(datetime)
 def _(isotime) -> int :
-	return int(isotime.timestamp() * 1000 + (isotime.microsecond//1000))
+	return int(isotime.timestamp()) * 1000 + (isotime.microsecond//1000)
 
 def getRandomSuffix():
 	digits="0123456789abcdefghijklmnopqrstuvwxyz"
@@ -43,7 +43,7 @@ def getRandomSuffix():
 		# FIXME
 		raise e
 
-def getUUID(epoch=0 : int, addSeparator=False):	
+def getUUID(epoch=0, addSeparator=False):	
 	"""
 	Default epoch on 1970-01-01 leaves only half the date range for
 	use by the program
@@ -57,6 +57,10 @@ def getUUID(epoch=0 : int, addSeparator=False):
 
 # print two examples
 if __name__ == "__main__":
-	epoch = getMilliseconds("2019-06-01T00:00:00 +00:00")
-	print(getUUID(epoch))
-	print(getUUID(epoch, addSeparator=True))
+	#epoch = getMilliseconds("2019-06-01T00:00:00 +00:00")
+	epoch = 0
+	from time import sleep
+	for i in range(20):
+		sleep(0.1)
+		print(getUUID(epoch), end=" ")
+		print(getUUID(epoch, addSeparator=True))

@@ -20,11 +20,11 @@ In base 36, 8 characters give us around ~89.5 years of counting milliseconds. Co
 
 Clock collisions are handled by adding four characters (~20.68 bits) of randomness, resulting in a ~1.68 million to one. Although, like RFC 4122, it'd be possible to enhance this field by replacing some randomness with identifying/distinctifying information, if available. Do be careful to avoid seeding the random number generator with only the system clock !
 
-Finally, in order to more easily distinguish between IDs, we establish a particular notation: the eight characters for time are notated backwards (ie little-endian), followed by the four random characters.
+Finally, in order to more easily distinguish between IDs, we establish a particular notation: the first six characters for time are notated backwards (ie little-endian). This is so the first four characters represent a ~4 year slice, changing every ~1.29 second, and thus represent a good rough indicator. The four random digits are appended at the end.
 
-To make reading the UUID easier, it is possible to separate it into three groups, using a dash `-` as separator. The point of this (and the previous instruction) is to bring into view the first four digits (the least significant ones of the timestamp). It is expected that humans will first look at those to quickly check whether two STUUIDs are the same. These digits repeat approximately every 30 minutes.
+To make reading the UUID easier, it is possible to separate it into three groups, using a dash `-` as separator. The point of this (and the previous instruction) is to bring into view the first four digits.
 
-Examples: `e48c-1c10-g8ec`, `vfvg2c10xo77`
+Examples: `e9cu-10js-3gei`, `kc37yjz2h7kd`
 
 
 #### Assumptions

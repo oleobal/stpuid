@@ -45,5 +45,6 @@ When a UUID is requested:
 
 1. Generate a millisecond timestamp compared to your epoch
 2. Convert it to base 36 and prefix it with zeroes to get to 8 characters.
-3. Write the 8 characters backwards, and add four random characters at the end
-4. (optional) add separators (dashes) separating the string in 3 groups of 4 characters.
+3. Reverse the order of the first six characters
+4. Add four random characters at the end
+5. (optional) add separators (dashes) separating the string in 3 groups of 4 characters.

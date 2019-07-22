@@ -43,7 +43,7 @@ def getRandomSuffix():
 		# FIXME
 		raise e
 
-def getUUID(epoch=0, addSeparator=False):	
+def getID(epoch=0, addSeparator=False):	
 	"""
 	Default epoch on 1970-01-01 leaves only half the date range for
 	use by the program
@@ -55,12 +55,6 @@ def getUUID(epoch=0, addSeparator=False):
 	return res
 	
 
-# print two examples
+# demo
 if __name__ == "__main__":
-	#epoch = getMilliseconds("2019-06-01T00:00:00 +00:00")
-	epoch = 0
-	from time import sleep
-	for i in range(20):
-		sleep(0.1)
-		print(getUUID(epoch), end=" ")
-		print(getUUID(epoch, addSeparator=True))
+	print(getID(0))

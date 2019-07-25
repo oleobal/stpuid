@@ -74,15 +74,15 @@ public class STPUID
 	{
 		return getID(epoch, false);
 	}
-	/// Epoch set to 0 (1970-01-01T00:00:00.000Z)
+	/// Epoch set to 2001-01-01T00:00:00.000Z
 	public static String getID(Boolean addSeparator)
 	{
-		return getID(0, addSeparator);
+		return getID(978307200000, addSeparator);
 	}
-	/// Epoch set to 0 (1970-01-01T00:00:00.000Z)
+	/// Epoch set to 2001-01-01T00:00:00.000Z
 	public static String getID()
 	{
-		return getID(0, false);
+		return getID(978307200000, false);
 	}
 	
 	

@@ -45,7 +45,7 @@ long getMilliseconds(string time)
 }
 
 
-string getID(long epoch=0, bool addSeparator=false)
+string getID(long epoch=978307200000, bool addSeparator=false)
 {
 	long time = getMilliseconds(Clock.currTime()) - epoch;
 	string res = getDateStr(time) ~ getRandomSuffix();
@@ -62,6 +62,7 @@ string getHelpText()
 	return 
 `Simple & Trivial Practically Unique Identifier generator
 Usage: stpuid [epoch] [-s|--separator] [-h|--help]
+       stpuid info <id> [epoch] [-h|--help] (for examining existing IDs) 
 
 Parameters:
  epoch: The starting point for dating the STPUID. IDs are only comparable if
@@ -81,11 +82,15 @@ Return values on failure:
 int main(string[] args)
 {
 	bool epochIsDefault = true;
-	long epoch=0;
+	long epoch=978307200000; // 2001-01-01T00:00:00Z
 	bool addSeparator=false;
 	
 	args = args[1..$];
 	
+	if (args[0] == "info")
+	{
+		// TODO
+	}
 	
 	foreach (string arg ; args)
 	{
@@ -127,7 +132,7 @@ int main(string[] args)
 	writeln(getID(epoch, addSeparator));
 	
 	if (epochIsDefault)
-		stderr.writeln("Warning: used 1970-01-01 as default epoch. -h for info");
+		stderr.writeln("Warning: used 2001-01-01 as default epoch. -h for info");
 	if (getMilliseconds(Clock.currTime) < epoch)
 	{
 		stderr.writeln("Warning: epoch is in the future (produced garbage UUID)");

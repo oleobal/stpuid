@@ -29,7 +29,7 @@ stpuid.getRandomSuffix = function()
 stpuid.getID = function(epoch, addSeparator)
 {
 	if (typeof epoch === "undefined")
-		epoch = 0;
+		epoch = 978307200000; // 2001-01-01T00:00:00.000Z
 	if (typeof addSeparator === "undefined")
 		addSeparator = false;
 	

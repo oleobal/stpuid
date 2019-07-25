@@ -27,6 +27,8 @@ def getMilliseconds(isotime: datetime) -> int :
 
 @getMilliseconds.register(str)
 def _(isotime) -> int :
+	if isotime[-1] == "Z":
+		isotime = isotime[:-1] + "+00:00"
 	epoch = datetime.fromisoformat(isotime)
 	return getMilliseconds(epoch)
 
@@ -43,10 +45,9 @@ def getRandomSuffix():
 		# FIXME
 		raise e
 
-def getID(epoch=0, addSeparator=False):	
+def getID(epoch=978307200000, addSeparator=False):	
 	"""
-	Default epoch on 1970-01-01 leaves only half the date range for
-	use by the program
+        Default epoch on 2001-01-01T00:00:00Z
 	"""
 	time = getMilliseconds(datetime.now()) - epoch
 	res = getDateStr(time)+getRandomSuffix()

@@ -1,6 +1,6 @@
 var stpuid = {}
 
-stpuid.getDateStr = function(msTimestamp)
+stpuid.getDateSlug = function(msTimestamp)
 {
 	var res = msTimestamp.toString(36);
 	while (res.length < 8)
@@ -35,7 +35,7 @@ stpuid.getID = function(epoch, addSeparator)
 	
 	var time = Date.now() - epoch
 	
-	var res = this.getDateStr(time) + this.getRandomSuffix();
+	var res = this.getDateSlug(time) + this.getRandomSuffix();
 	
 	if (addSeparator)
 		res = res.substring(0,4) + "-" + res.substring(4,8) + "-"+ res.substring(8);

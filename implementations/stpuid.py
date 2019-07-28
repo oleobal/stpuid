@@ -13,7 +13,7 @@ def base36(inp : int) -> str:
 	digits="0123456789abcdefghijklmnopqrstuvwxyz"
 	return ((inp == 0) and digits[0]) or (base36(inp // 36).lstrip(digits[0]) + digits[inp % 36])
 
-def getDateStr(msTimestamp: int) -> str:
+def getDateSlug(msTimestamp: int) -> str:
 	res = base36(msTimestamp)
 	while len(res) < 8:
 		res = "0"+res
@@ -50,7 +50,7 @@ def getID(epoch=978307200000, addSeparator=False):
         Default epoch on 2001-01-01T00:00:00Z
 	"""
 	time = getMilliseconds(datetime.now()) - epoch
-	res = getDateStr(time)+getRandomSuffix()
+	res = getDateSlug(time)+getRandomSuffix()
 	if addSeparator:
 		res = res[:4]+"-"+res[4:8]+"-"+res[8:]
 	return res
@@ -58,4 +58,4 @@ def getID(epoch=978307200000, addSeparator=False):
 
 # demo
 if __name__ == "__main__":
-	print(getID(0))
+	print(getID())

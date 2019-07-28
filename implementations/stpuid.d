@@ -10,7 +10,7 @@ import core.time;
 
 import std.random;
 
-string getDateStr(long msTimestamp)
+string getDateSlug(long msTimestamp)
 {
 	char[] res = to!(char[])(toLower(to!(string)(msTimestamp, 36)));
 	while (res.length < 8)
@@ -48,7 +48,7 @@ long getMilliseconds(string time)
 string getID(long epoch=978307200000, bool addSeparator=false)
 {
 	long time = getMilliseconds(Clock.currTime()) - epoch;
-	string res = getDateStr(time) ~ getRandomSuffix();
+	string res = getDateSlug(time) ~ getRandomSuffix();
 	if (addSeparator)
 		res = res[0..4] ~"-"~ res[4..8] ~ "-" ~ res[8..$];
 	return res;

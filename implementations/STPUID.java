@@ -17,7 +17,7 @@ public class STPUID
 	// all caps to respect the convention set by java.util.UUID
 	
 	
-	public static String getDateStr(long msTimestamp)
+	public static String getDateSlug(long msTimestamp)
 	{
 		String res = Long.toString(msTimestamp, 36);
 		
@@ -62,7 +62,7 @@ public class STPUID
 	public static String getID(long epoch, Boolean addSeparator)
 	{
 		long time = (long)System.currentTimeMillis() - epoch;
-		String res = getDateStr(time) + getRandomSuffix();
+		String res = getDateSlug(time) + getRandomSuffix();
 		if (addSeparator)
 			res = res.substring(0,4)
 			 +"-"+res.substring(4,8)

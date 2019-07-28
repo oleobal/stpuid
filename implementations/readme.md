@@ -24,8 +24,8 @@ The defined functions follow:
 
 `getID(msts, format)` which produces IDs or their 14-chars variant
 
-All functions should be, if possible, set within their own common
-`stpuid` namespace (or an equivalent in the language of choice).
+All functions should be, if possible, set within their own common `stpuid`
+namespace (or an equivalent in the language of choice).
 Do respect local language conventions.
 
 ### Default values
@@ -33,34 +33,37 @@ Do respect local language conventions.
 If a default value is allowed for the timestamp, then it should be
 978307200000, which corresponds to 2001-01-01T00:00:00Z.
 
-If a default value is allowed for the format (whether or not to add
-separator dashes to produced IDs), then it should be default produce
-12-characters separator-less IDs.
+If a default value is allowed for the format (whether or not to add separator
+dashes to produced IDs), then it should be default produce 12-characters
+separator-less IDs.
 
 ### Optional functions
 
-These functions are not core to the functionality, but are either
-necessary to palliate missing language features, or convenient to
-have. Their inclusion is not mandatory, but appreciated.
+These functions are not core to the functionality, but are either necessary to
+palliate missing language features, or convenient to have. It is not mandatory
+for them to be implemented; but if they are, then make sure they follow this
+interface.
 
-`base36(integer)` returns the base 36 string representation of a
-given integer, big-endian, with no padding.
+`base36(integer)` returns the base 36 string representation of a given integer,
+big-endian, with no padding.
 
-`getMilliseconds(iso date)` accepts a date and returns its equivalent
-in number of milliseconds since 1970-01-01T00:00:00Z.
-This function can have two variants, one for the local language's own
-date format, and one for a ISO 8601 string date representation.
+`getMilliseconds(iso date)` accepts a date and returns its equivalent in number
+of milliseconds since 1970-01-01T00:00:00Z.
+This function is specified to take an "iso date", but ideally it should be able
+to take as input either the local language's date type or a ISO 8601 string.
 
-#### Under consideration
+`getDate(epoch as msts, msts)` returns the date represented by the given msts
+(as milliseconds since the given epoch), either as the local language's date
+type (if it has one), or as an ISO 8601 string.
 
-*Do not implement these functions at this time, as the interface is not
-fixed yet.*
-
-`getTimeOffset(msts)` returns a date delta, either as the local language's
+`getPrettyTimeDelta(msts)` returns a date delta, either as the local language's
 time delta type (if it has one), or as a string.
 
-`getTimeOffset(msts epoch, date slug or ID)` returns the time elapsed, in
+
+`getTimeDelta(msts epoch, date slug or ID)` returns the time elapsed, in
 milliseconds, between the given epoch (a millisecond timestamp) and the given
-date slug, 12-chars ID, or 14-chars ID. It should include enough logic
-to distinguish between the three possible types for the second input.
+date slug, 12-chars ID, or 14-chars ID. It should include enough logic to
+distinguish between the three possible types for the second input.
 This function is essentially the invert of `getDateSlug(...)`.
+
+

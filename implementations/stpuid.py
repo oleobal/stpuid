@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-python 3 implementation
+Short & Trivial Practically Unique Identifier library
 """
 from datetime import datetime
 from typing import *

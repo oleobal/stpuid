@@ -1,4 +1,4 @@
-### Small & Trivial Practically Unique Identifier
+### Short & Trivial Practically Unique Identifier
 
 There are situations where an unique identifier is needed, but actually good UUIDs like [RFC 4122](https://www.ietf.org/rfc/rfc4122.txt) are too long; in particular when the identifiers need to be human-readable.
 

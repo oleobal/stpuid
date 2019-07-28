@@ -1,3 +1,7 @@
+/**
+ * Short & Trivial Practically Unique Identifier library
+ */
+
 var stpuid = {}
 
 stpuid.getDateSlug = function(msTimestamp)

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+OUTPUT_FILENAME=stpuid
+
+if [[ $1 == "clean" ]]; then
+	rm $OUTPUT_FILENAME
+	rm *.o
+elif [[ $1 == "dev" ]]; then
+	dmd *.d -of=$OUTPUT_FILENAME -g
+else
+	ldc *.d -of=$OUTPUT_FILENAME -O
+	# getting a missing lib error with GDC
+fi

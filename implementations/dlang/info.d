@@ -37,6 +37,7 @@ Options:
  +/
 int handle(string[] args)
 {
+	string id="";
 	bool epochIsDefault = true;
 	long epoch=978307200000; // 2001-01-01T00:00:00Z
 
@@ -55,24 +56,32 @@ int handle(string[] args)
 		}
 		
 
-		else // epoch
+		else // id or epoch
 		{
-			try
+			if (id == "") // id
 			{
-				epoch = to!long(arg);
-				epochIsDefault = false;
+				id = arg;
+				// TODO validate ID
 			}
-			catch (ConvException e)
+			else // epoch
 			{
 				try
 				{
-					epoch = getMilliseconds(arg);
+					epoch = to!long(arg);
 					epochIsDefault = false;
 				}
-				catch (DateTimeException e)
+				catch (ConvException e)
 				{
-					stderr.writeln("Unintelligible input: "~arg);
-					return 1;
+					try
+					{
+						epoch = getMilliseconds(arg);
+						epochIsDefault = false;
+					}
+					catch (DateTimeException e)
+					{
+						stderr.writeln("Unintelligible input: "~arg);
+						return 1;
+					}
 				}
 			}
 		}

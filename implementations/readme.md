@@ -66,4 +66,9 @@ date slug, 12-chars ID, or 14-chars ID. It should include enough logic to
 distinguish between the three possible types for the second input.
 This function is essentially the invert of `getDateSlug(...)`.
 
-
+`validateID(stpuid, optional epoch as msts)` analyses an ID by:
+ - checking whether it is properly formatted
+ - (if the epoch has been given) checking whether it is within the allowed date
+   range for this epoch.
+How it signals those things (ie by return value, exceptions, etc) is left to
+implementation.

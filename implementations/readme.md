@@ -52,23 +52,28 @@ of milliseconds since 1970-01-01T00:00:00Z.
 This function is specified to take an "iso date", but ideally it should be able
 to take as input either the local language's date type or a ISO 8601 string.
 
-`getDate(epoch as msts, msts)` returns the date represented by the given msts
-(as milliseconds since the given epoch), either as the local language's date
-type (if it has one), or as an ISO 8601 string.
-
-`getPrettyTimeDelta(msts)` returns a date delta, either as the local language's
-time delta type (if it has one), or as a string.
+`getDate(epoch, msts or date slug or ID)` returns the date represented by the
+given msts (as milliseconds since the given epoch, although other types may be
+accepted), either as the local language's date type (prefererred, if it has
+one), or as an ISO 8601 string.
 
 
-`getTimeDelta(msts epoch, date slug or ID)` returns the time elapsed, in
-milliseconds, between the given epoch (a millisecond timestamp) and the given
+`getTimeDelta(msts or date slug or ID)` returns a date delta, either as the
+local language's time delta type (if it has one), or as a string. This is
+essentially a higher level `getTimestamp`.
+
+
+`getTimestamp(date slug or ID)` returns the creation timestamp for the given
 date slug, 12-chars ID, or 14-chars ID. It should include enough logic to
 distinguish between the three possible types for the second input.
-This function is essentially the invert of `getDateSlug(...)`.
+This function is essentially the invert of `getDateSlug`.
 
-`validateID(stpuid, optional epoch as msts)` analyses an ID by:
- - checking whether it is properly formatted
- - (if the epoch has been given) checking whether it is within the allowed date
-   range for this epoch.
+
+
+
+`validateID(stpuid)` analyses an ID by checking whether it is properly formatted
 How it signals those things (ie by return value, exceptions, etc) is left to
 implementation.
+
+`validateEpoch(epoch as msts)` checks whether the given epoch is valid now. As
+`validateID`, signaling is left to implementation

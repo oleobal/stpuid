@@ -58,7 +58,7 @@ int main(string[] args)
 int handle(string[] args)
 {
 	bool epochIsDefault = true;
-	long epoch=978307200000; // 2001-01-01T00:00:00Z
+	long epoch=978_307_200_000; // 2001-01-01T00:00:00Z
 	bool addSeparator=false;
 	foreach (string arg ; args)
 	{
@@ -101,16 +101,21 @@ int handle(string[] args)
 	
 	if (epochIsDefault)
 		stderr.writeln("Warning: used 2001-01-01 as default epoch. -h for info");
-	if (getMilliseconds(Clock.currTime) < epoch)
+	try
 	{
-		stderr.writeln("Warning: epoch is in the future (produced garbage ID)");
+		validateEpoch(epoch);
+	}
+	catch (StaleEpochException e)
+	{
+		stderr.writeln("Warning: "~e.msg~"\n(produced potentially duplicate ID)");
+		return 100;
+		
+	}
+	catch (EpochException e)
+	{
+		stderr.writeln("Warning: "~e.msg~"\n(produced garbage ID)");
 		return 100;
 	}
 	
-	if (getMilliseconds(Clock.currTime) - epoch > pow(to!long(36),8))
-	{
-		stderr.writeln("Warning: epoch is too far in the past\n(produced potentially duplicate ID)");
-		return 100;
-	}
 	return 0;
 }

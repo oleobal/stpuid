@@ -6,7 +6,9 @@ if [[ $1 == "clean" ]]; then
 	rm $OUTPUT_FILENAME
 	rm *.o
 elif [[ $1 == "dev" ]]; then
-	dmd *.d -of=$OUTPUT_FILENAME -g
+	dmd *.d -of=$OUTPUT_FILENAME -g -debug -color
+elif [[ $1 == "test" ]]; then
+	dmd *.d -of=$OUTPUT_FILENAME -g -color -unittest
 else
 	ldc *.d -of=$OUTPUT_FILENAME -O
 	# getting a missing lib error with GDC

@@ -39,7 +39,7 @@ int handle(string[] args)
 {
 	string id="";
 	bool epochIsDefault = true;
-	long epoch=978307200000; // 2001-01-01T00:00:00Z
+	long epoch=978_307_200_000; // 2001-01-01T00:00:00Z
 
 	if (args.length == 0)
 	{

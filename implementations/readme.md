@@ -65,7 +65,8 @@ essentially a higher level `getTimestamp`.
 
 `getTimestamp(date slug or ID)` returns the creation timestamp for the given
 date slug, 12-chars ID, or 14-chars ID. It should include enough logic to
-distinguish between the three possible types for the second input.
+distinguish between the three possible types for the second input. Date slugs
+should be accepted with or without a separator in the middle (ie, 8 or 9 chars).
 This function is essentially the invert of `getDateSlug`.
 
 

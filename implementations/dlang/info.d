@@ -27,10 +27,89 @@ Usage: stpuid `~info.getHelpUsage()~`
 Parameters:
     id: the STPUID to analyse. It can also be a date slug.
  epoch: The starting point for dating the STPUID. IDs are only comparable if
-        their epoch is the same. Defaults to 2001-01-01T00:00:00Z.
+        their epoch is the same.
 Options:
  -h|--help     : This help`;
 }
+
+string getApproximateHumanDuration(Duration d)
+{
+	long days;
+	int hours;
+	int minutes;
+	int seconds;
+	
+	d.split!("days", "hours", "minutes", "seconds")(days, hours, minutes, seconds);
+	
+	if (days > 730)
+	{
+		auto years = 0;
+		auto months = 0;
+		while (days > 365)
+		{
+			years++;
+			days-=365;
+		}
+		while (days > 30)
+		{
+			months++;
+			days-=30;
+		}
+		if (days>=15)
+			months++;
+		string result = to!string(years)~" years";
+		if (months>0)
+			result~=", "~to!string(months)~" months";
+		return result;
+	}
+	
+	if (days == 1)
+	{
+		days = 0;
+		hours+=24;
+	}
+	if (days == 0)
+	{
+		if (hours==1)
+		{
+			hours= 0;
+			minutes+=60;
+		}
+		if (hours == 0)
+		{
+			if (minutes == 1)
+			{
+				minutes = 0;
+				seconds+=60;
+			}
+		}
+	}
+	string result = "";
+	if (days != 0)
+		result ~= to!string(days)~" days";
+	if (hours != 0)
+	{
+		if (result.length != 0)
+			result~=", ";
+		result ~= to!string(hours)~" hours";
+	}
+	if (minutes != 0)
+	{
+		if (result.length != 0)
+			result~=", ";
+		result ~= to!string(minutes)~" minutes";
+	}
+	if (seconds != 0)
+	{
+		if (result.length != 0)
+			result~=", ";
+		result ~= to!string(seconds)~" seconds";
+	}
+	if (result.length == 0)
+		result = "just an instant";
+	return result;
+}
+
 
 /++
  + assumed to be called from stpuid.d:main(...)
@@ -43,7 +122,7 @@ int handle(string[] args)
 
 	if (args.length == 0)
 	{
-		writeln("Analyse already produced STPUIDs\nUsage: stpuid "~getHelpUsage());
+		writeln("Validate and get info on already produced STPUIDs\nUsage: stpuid "~getHelpUsage());
 		return 1;
 	}
 	
@@ -61,7 +140,6 @@ int handle(string[] args)
 			if (id == "") // id
 			{
 				id = arg;
-				// TODO validate ID
 			}
 			else // epoch
 			{
@@ -88,10 +166,31 @@ int handle(string[] args)
 	}
 	
 	
-	writeln("TODO add function call;");
+	if (id.length > 9 || id.length < 8) // ie not a date slug
+	{
+		try
+		{
+			validateID(id);
+		}
+		catch (Exception e)
+		{
+			writeln("Invalid ID: "~e.msg);
+			return 100;
+		}
+	}
+	auto ts = getTimestamp(id);
+	auto d = getTimeDelta(ts);
 	
-	if (epochIsDefault)
-		stderr.writeln("Warning: used 2001-01-01 as default epoch. -h for info");
+	writeln("Timestamp: ",ts," (approx. ",getApproximateHumanDuration(d),")");
+	
+	
+	if (!epochIsDefault)
+	{
+		auto date = getDate(epoch, ts);
+		writeln("Created: ", date.toISOExtString(),
+		//" (Timestamp: ",getMilliseconds(date),")",
+		" (approx. ", getApproximateHumanDuration(Clock.currTime()-date), " ago)");
+	}
 	
 	return 0;
 }

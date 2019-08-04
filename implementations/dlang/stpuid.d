@@ -85,7 +85,7 @@ long getTimestamp(string slugOrId)
 	auto slug = to!(char[])(slugOrId);
 	if (slug.length == 12)
 		slug = slug[0..8];
-	else if (slug.length == 14)
+	else if (slug.length == 14 || slug.length == 9)
 		slug = slug[0..4] ~ slug[5..9];
 	
 	if (slug.length == 8)

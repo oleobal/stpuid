@@ -3,6 +3,7 @@
  +/
 import stpuid;
 static import info;
+static import date;
 
 import std.stdio;
 import std.conv;
@@ -18,13 +19,14 @@ string getHelpText()
 `Short & Trivial Practically Unique Identifier generator
 Usage: stpuid [epoch] [-s|--separator] [-h|--help]
        stpuid `~info.getHelpUsage()~` 
+       stpuid `~date.getHelpUsage()~` 
 
 Parameters:
  epoch: The starting point for dating the STPUID. IDs are only comparable if
         their epoch is the same, but STPUIDs are only valid for ~90 years,
         meaning default-epoch STPUIDs are only valid to the year ~2060.
-        If [epoch] is a number, it is taken as a a number of milliseconds since
-        . Else, it is parsed as an extended ISO date.
+        If [epoch] is a number, it is taken as a a number of milliseconds since.
+        Else, it is parsed as an extended ISO date.
 Options:
  -s|--separator: Add a dash (-) inbetween fields
  -h|--help     : This help
@@ -36,14 +38,15 @@ Return values on failure:
 
 int main(string[] args)
 {
-
-	
 	args = args[1..$];
 	
-
 	if (args.length > 0 && args[0] == "info")
 	{
 		return info.handle(args[1..$]);
+	}
+	if (args.length > 0 && args[0] == "date")
+	{
+		return date.handle(args[1..$]);
 	}
 	
 	else

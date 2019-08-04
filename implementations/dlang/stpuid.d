@@ -11,6 +11,7 @@ import std.algorithm.searching:canFind;
 import std.math:pow;
 
 import std.datetime:Duration;
+import std.datetime.timezone:UTC;
 import std.datetime.systime;
 import std.datetime.date:DateTimeException;
 import core.time;
@@ -61,7 +62,7 @@ SysTime getDate(long epochMsTime, long msTime)
 	long stdTime = unixTimeToStdTime(unixTime);
 	stdTime += ms*100_000; // add that number of hnsecs
 	// FIXME doesnt' that depend on the SysTime implementation ?
-	return SysTime(stdTime);
+	return SysTime(stdTime, UTC());
 }
 
 SysTime getDate(long epochMsTime, string slugOrId)
